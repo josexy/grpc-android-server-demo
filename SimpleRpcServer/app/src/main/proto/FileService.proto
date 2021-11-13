@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package protobuf;
+
+option go_package = "./protobuf";
+
+option java_multiple_files = true;
+option java_package = "com.joxrays.simplerpcserver.service";
+option java_outer_classname = "FileServiceEntry";
+
+message ReqHello { string value = 1; }
+
+message RespHello { string value = 1; }
+
+message ReqFilePath { string value = 1; }
+
+message RespFileInfo {
+  string name = 1;
+  int64 size = 2;
+}
+
+message Bytes { bytes value = 1; }
+
+service FileService {
+  rpc UploadFile(stream Bytes) returns (RespFileInfo) {}
+  rpc DownloadFile(ReqFilePath) returns (stream Bytes) {}
+  rpc SayHello(ReqHello) returns (RespHello) {}
+}
